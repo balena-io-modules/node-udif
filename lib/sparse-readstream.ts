@@ -12,26 +12,25 @@ const EXCLUDE = [
 
 export async function* sparseReadStream(image: Image) {
 	for (const { entry, block } of blockGenerator(image, EXCLUDE)) {
-		const size = block.sectorCount * SECTOR_SIZE;
-		const chunkPosition =
+		let position =
 			entry.map.sectorNumber * SECTOR_SIZE + block.sectorNumber * SECTOR_SIZE;
-		let pos = 0;
 		if (block.type === BLOCK.ZEROFILL) {
+			const size = block.sectorCount * SECTOR_SIZE;
 			for await (const buffer of new ZeroStream(size)) {
-				yield { buffer, position: chunkPosition + pos };
-				pos += buffer.length;
+				yield { buffer, position };
+				position += buffer.length;
 			}
 		} else {
-			const position = image.footer!.dataForkOffset + block.compressedOffset;
+			const offset = image.footer!.dataForkOffset + block.compressedOffset;
 			const length = block.compressedLength;
 			const inputStream = await image.fs.createReadStream(
-				position,
-				position + length - 1,
+				offset,
+				offset + length - 1,
 			);
 			const stream = blockDecompressor(block.type, inputStream);
 			for await (const buffer of stream) {
-				yield { buffer, position: chunkPosition + pos };
-				pos += buffer.length;
+				yield { buffer, position };
+				position += buffer.length;
 			}
 		}
 	}
