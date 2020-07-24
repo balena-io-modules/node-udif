@@ -1,6 +1,6 @@
 import * as adc from 'apple-data-compression';
 import { promises as fs, createReadStream as CRS } from 'fs';
-import { Readable, PassThrough } from 'stream';
+import { Readable } from 'stream';
 import * as bz2 from 'unbzip2-stream';
 import * as zlib from 'zlib';
 
@@ -45,8 +45,7 @@ export function blockDecompressor(
 	} else if (type === BLOCK.UDZO) {
 		return inputStream.pipe(zlib.createInflate());
 	} else if (type === BLOCK.UDBZ) {
-		// unbzip2-stream is not async iterable, so we pipe it through a PassThrough
-		return inputStream.pipe(bz2()).pipe(new PassThrough());
+		return inputStream.pipe(bz2());
 	} else if (type === BLOCK.UDCO) {
 		return inputStream.pipe(new adc.Decompressor());
 	} else if (type === BLOCK.LZFSE) {
