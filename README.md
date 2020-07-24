@@ -18,26 +18,16 @@ $ npm install --save @balena/udif
 
 ## Usage
 
-```js
-var UDIF = require( '@balena/udif' )
+```typescript
+import * as UDIF from '@balena/udif';
 ```
 
 ### Opening a .dmg image
 
-```js
-var dmg = new UDIF.Image( 'path/to/image.dmg' )
-
-dmg.open( function( error ) {
-  // ...
-})
-```
-
-### Closing the image
-
-```js
-dmg.close( function( error ) {
-  // ...
-})
+```typescript
+await UDIF.withOpenImage('path/to/image.dmg', async (image) => {
+	// ...
+});
 ```
 
 ### Determining the uncompressed size
@@ -45,69 +35,77 @@ dmg.close( function( error ) {
 Note that the image has to be opened to determine the uncompressed size,
 as this is read from the resource fork.
 
-```js
-UDIF.getUncompressedSize( 'path/to/image.dmg', function( error, size ) {
-  console.log( size, 'bytes' )
-  // > 629145600 bytes
-})
-```
-
-```js
-var dmg = new UDIF.Image( 'path/to/image.dmg' )
-
-dmg.open( function( error ) {
-  console.log( dmg.getUncompressedSize(), 'bytes' )
-  // > 629145600 bytes
-})
+```typescript
+return await UDIF.withOpenImage('path/to/image.dmg', async (image) => {
+	return await image.getUncompressedSize();
+});
 ```
 
 ### Creating a readable stream
 
-```js
-var readableStream = UDIF.createReadStream( 'path/to/image.dmg' )
-```
-
-Or, if you already have an instance of `UDIF.Image`:
-
-```js
-var readableStream = dmg.createReadStream()
+```typescript
+await UDIF.withOpenImage('path/to/image.dmg', async (image) => {
+	const readableStream = await image.createReadStream();
+});
 ```
 
 ### Extracting the raw disk image
 
 Extracting the uncompressed, raw disk image from a `.dmg` file becomes as easy as the following:
 
-```js
-UDIF.createReadStream( 'path/to/image.dmg' )
-  .pipe( fs.createWriteStream( '/path/to/destination.img' ) )
+```typescript
+import * as UDIF from '@balena/udif';
+import { pipeline } from 'stream';
+import { promisify } from 'util';
+
+const pipelineAsync = promisify(pipeline);
+
+await UDIF.withOpenImage('path/to/image.dmg', async (image) => {
+	await pipelineAsync(
+		await image.createReadStream(),
+		fs.createWriteStream('/path/to/destination.img'),
+	);
+});
 ```
 
 ### Sparse streams
 
-```js
-var sparseStream = UDIF.createSparseReadStream( 'path/to/image.dmg' )
+```typescript
+await UDIF.withOpenImage('path/to/image.dmg', async (image) => {
+	const sparseStream = await image.createSparseReadStream();
+});
 ```
 
 Sparse readstreams are in `objectMode` and will emit objects of the shape `{ buffer, position }`.
 This means you'll need a writable stream that is also in `objectMode` and knows how to handle these.
 For the sake of brevity, the following example only demonstrates passing a chunk's properties to `fs.write()`;
 
-```js
-sparseStream.on( 'data', function( chunk ) {
-  fs.writeSync( fd, chunk.buffer, 0, chunk.buffer.length, chunk.position )
+```typescript
+sparseStream.on('data', (chunk) => {
+	fs.writeSync(fd, chunk.buffer, 0, chunk.buffer.length, chunk.position);
 })
 ```
 
 ### Using a custom file system
 
-```js
-var dmg = new UDIF.Image( 'https://github.com/resin-io/etcher/releases/download/v1.2.0/Etcher-1.2.0.dmg', {
-  fs: new HttpFs()
-})
+```typescript
+import * as UDIF from '@balena/udif';
+import * as fs from 'fs';
 
-dmg.open( function( error ) {
-  // ...
+const fd = fs.openSync('path/to/image.dmg', 'r');
+const size = fs.fstatSync(fd).size;
+
+const dmg = new UDIF.Image({
+	size,
+	createReadStream: async (start: number, end: number) => {
+		return fs.createReadStream('', { fd, start, end, autoClose: false });
+	},
 })
+await dmg.ready;
+
+// ...
+
+fs.closeSync(fd);
 ```
 
 ### Inspecting the UDIF footer
@@ -115,14 +113,13 @@ dmg.open( function( error ) {
 The footer (aka the "Koly Block") contains pointers to the XML metadata,
 data fork & resource fork as well as checksums.
 
-```js
-// Once the dmg has been opened:
-dmg.open( function( error ) {
-  console.log( dmg.footer )
-})
+```typescript
+await UDIF.withOpenImage('path/to/image.dmg', async (image) => {
+	console.log(image.footer)
+});
 ```
 
-```js
+```typescript
 KolyBlock {
   signature: 1802464377,
   version: 4,
@@ -153,13 +150,13 @@ KolyBlock {
 
 The XML data is a [Property List](https://en.wikipedia.org/wiki/Property_list), (or plist) which contains a block map under `resource-fork.blkx`.
 
-```js
-dmg.open( function( error ) {
-  console.log( dmg.resourceFork )
-})
+```typescript
+await UDIF.withOpenImage('path/to/image.dmg', async (image) => {
+	console.log(image.resourceFork)
+});
 ```
 
-```js
+```typescript
 {
   blkx: [{
     id: -1,
