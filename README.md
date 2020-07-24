@@ -8,13 +8,7 @@ $ npm install --save @balena/udif
 
 ## Used by
 
-- **[Etcher](https://github.com/resin-io/etcher)** to support Apple's disk image format (.dmg)
-
-## Related Modules
-
-- [apple-partition-map](https://github.com/jhermsmeier/node-gpt) – Parse / construct Apple Partition Maps
-- [blockdevice](https://github.com/jhermsmeier/node-blockdevice) – Read from / write to block devices
-- [disk](https://github.com/jhermsmeier/node-disk) – Disk / image toolbox
+- **[Etcher](https://github.com/balena-io/etcher)** to support Apple's disk image format (.dmg)
 
 ## Usage
 
@@ -465,5 +459,5 @@ await UDIF.withOpenImage('path/to/image.dmg', async (image) => {
 
 - [Demystifying the DMG File Format](http://newosxbook.com/DMG.html)
 - [VBox/Storage/DMG.cpp](https://www.virtualbox.org/svn/vbox/trunk/src/VBox/Storage/DMG.cpp)
-- [man1/hdiutil.1](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/hdiutil.1.html)
+- [man1/hdiutil.1](https://www.unix.com/man-page/osx/1/hdiutil/)
 - [Wikipedia/Apple_Disk_Image](https://en.wikipedia.org/wiki/Apple_Disk_Image)
