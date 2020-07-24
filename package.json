@@ -1,6 +1,6 @@
 {
   "name": "@balena/udif",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Apple Universal Disk Image Format (UDIF/DMG)",
   "license": "MIT",
   "author": "Jonas Hermsmeier <jhermsmeier@gmail.com> (https://jhermsmeier.de)",
