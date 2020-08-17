@@ -1,4 +1,4 @@
-import * as plist from 'apple-plist';
+import * as plist from '@balena/apple-plist';
 import * as crc32 from 'cyclic-32';
 import { Readable, Transform } from 'stream';
 
