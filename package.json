@@ -35,8 +35,8 @@
   },
   "main": "build/index.js",
   "dependencies": {
+    "@balena/apple-plist": "^0.0.2",
     "apple-data-compression": "^0.4.1",
-    "apple-plist": "^0.3.0",
     "cyclic-32": "^1.1.0",
     "unbzip2-stream": "github:balena-io-modules/unbzip2-stream#4a54f56a25b58950f9e4277c56db2912d62242e7"
   },
