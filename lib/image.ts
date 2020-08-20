@@ -140,10 +140,11 @@ export class Image {
 	}
 
 	/** Create a readable stream of this image */
-	public async createReadStream() {
+	public async createReadStream(end = Infinity) {
+		// end is inclusive
 		await this.ready;
 		// @ts-ignore: Readable.from exists
-		return Readable.from(readStream(this));
+		return Readable.from(readStream(this, end));
 	}
 
 	/** Create a sparse readable stream of this image */
