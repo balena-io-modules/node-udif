@@ -18,9 +18,9 @@ const SOURCES = [
 	'compression-zlib.dmg',
 ].map((f) => path.join(DATADIR, f));
 
-context('UDIF.getUncompressedSize()', () => {
+describe('UDIF.getUncompressedSize()', () => {
 	images.forEach((data) => {
-		specify(data.filename, async () => {
+		it(data.filename, async () => {
 			await UDIF.withOpenImage(
 				path.join(DATADIR, data.filename),
 				async (image) => {
@@ -32,21 +32,35 @@ context('UDIF.getUncompressedSize()', () => {
 	});
 });
 
-context('UDIF.Image', () => {
-	images.forEach((data) => {
-		context(data.filename, async () => {
+describe('UDIF.Image', () => {
+	describe('image.footer.dataForkLength', () => {
+		images.forEach((data) => {
 			const filename = path.join(DATADIR, data.filename);
-			await UDIF.withOpenImage(filename, async (image) => {
-				specify('image.footer.dataForkLength', () => {
+			it(data.filename, async () => {
+				await UDIF.withOpenImage(filename, async (image) => {
 					assert.equal(image.footer?.dataForkLength, data.dataForkLength);
 				});
-				specify('image.getUncompressedSize()', async () => {
+			});
+		});
+	});
+	describe('image.getUncompressedSize()', () => {
+		images.forEach((data) => {
+			const filename = path.join(DATADIR, data.filename);
+			it(data.filename, async () => {
+				await UDIF.withOpenImage(filename, async (image) => {
 					assert.equal(
 						await image.getUncompressedSize(),
 						data.uncompressedSize,
 					);
 				});
-				specify('image.verifyData()', async () => {
+			});
+		});
+	});
+	describe('image.verifyData()', () => {
+		images.forEach((data) => {
+			const filename = path.join(DATADIR, data.filename);
+			it(data.filename, async () => {
+				await UDIF.withOpenImage(filename, async (image) => {
 					const verified = await image.verifyData();
 					assert.strictEqual(verified, true);
 				});
@@ -55,13 +69,19 @@ context('UDIF.Image', () => {
 	});
 });
 
-context('UDIF.ReadStream', () => {
-	images.forEach((data) => {
-		context(data.filename, async () => {
-			await UDIF.withOpenImage(
-				path.join(DATADIR, data.filename),
-				async (image) => {
-					specify('read & decompress image', async () => {
+function randInt(min: number, max: number) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+describe('UDIF.ReadStream', () => {
+	describe('read & decompress image', () => {
+		images.forEach((data) => {
+			it(data.filename, async () => {
+				await UDIF.withOpenImage(
+					path.join(DATADIR, data.filename),
+					async (image) => {
 						let bytesRead = 0;
 
 						const stream = await image.createReadStream();
@@ -76,23 +96,51 @@ context('UDIF.ReadStream', () => {
 									resolve();
 								});
 						});
-					});
-				},
-			);
+					},
+				);
+			});
 		});
 	});
 
-	context('Compression Methods', () => {
+	describe('read with end option', () => {
+		images.forEach((data) => {
+			it(data.filename, async () => {
+				await UDIF.withOpenImage(
+					path.join(DATADIR, data.filename),
+					async (image) => {
+						// end is inclusive
+						const end = randInt(0, data.uncompressedSize - 1);
+						let bytesRead = 0;
+
+						const stream = await image.createReadStream(end);
+						await new Promise((resolve, reject) => {
+							stream
+								.on('error', reject)
+								.on('data', (chunk: Buffer) => {
+									bytesRead += chunk.length;
+								})
+								.on('end', () => {
+									assert.equal(bytesRead, end + 1);
+									resolve();
+								});
+						});
+					},
+				);
+			});
+		});
+	});
+
+	describe('Compression Methods', () => {
 		const expected = fs.readFileSync(path.join(DATADIR, 'decompressed.img'));
 
-		context('source image equality', () => {
+		describe('source image equality', () => {
 			SOURCES.forEach((filename) => {
 				const testName = path
 					.basename(filename, '.dmg')
 					.replace('compression-', '')
 					.toUpperCase();
 
-				specify(testName, async () => {
+				it(testName, async () => {
 					await UDIF.withOpenImage(filename, async (image) => {
 						const size = await image.getUncompressedSize();
 						const actual = Buffer.allocUnsafe(size);
@@ -121,10 +169,10 @@ context('UDIF.ReadStream', () => {
 	});
 });
 
-context('UDIF.SparseReadStream', () => {
-	images.forEach((data) => {
-		context(data.filename, () => {
-			specify('read & decompress image', async () => {
+describe('UDIF.SparseReadStream', () => {
+	describe('read & decompress image', () => {
+		images.forEach((data) => {
+			it(data.filename, async () => {
 				await UDIF.withOpenImage(
 					path.join(DATADIR, data.filename),
 					async (image) => {
@@ -147,17 +195,17 @@ context('UDIF.SparseReadStream', () => {
 		});
 	});
 
-	context('Compression Methods', () => {
+	describe('Compression Methods', () => {
 		const expected = fs.readFileSync(path.join(DATADIR, 'decompressed.img'));
 
-		context('source image equality', () => {
+		describe('source image equality', () => {
 			SOURCES.forEach((filename) => {
 				const testName = path
 					.basename(filename, '.dmg')
 					.replace('compression-', '')
 					.toUpperCase();
 
-				specify(testName, async () => {
+				it(testName, async () => {
 					await UDIF.withOpenImage(filename, async (image) => {
 						const size = await image.getUncompressedSize();
 						const actual = Buffer.alloc(size);
