@@ -1,134 +1,162 @@
+- commits:
+    - subject: Update @balena/apple-plist from 0.0.2 to 0.0.3
+      hash: 6c9517c47f5b00db1d74597e2414b172eb382df6
+      body: |
+        Update @balena/apple-plist from 0.0.2 to 0.0.3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Alexis Svinartchouk
+      nested: []
+    - subject: Update typescript to v4.1.2
+      hash: 4854227bbeb1fc42da75e6eb69fee4fa8f46e04b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Alexis Svinartchouk
+      nested: []
+    - subject: Add versionbot changelog
+      hash: 5ef8a1bdc49fa0a1bc8bf26d7d84fe80d4666cbf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Alexis Svinartchouk
+      nested: []
+  version: 1.1.1
+  date: 2020-11-30T19:23:19.514Z
 - version: 1.1.0
-  date: 2020-08-20T18:27:55Z
+  date: 2020-08-20T18:27:55.000Z
   commits:
     - hash: e68312f7214780f8e198007858ba4cf0e09d4d8e
       author: Alexis Svinartchouk
       footers:
         changelog-entry: Add end option to createReadStream
         change-type: minor
-      subject: Add end option to createReadStream, fix tests
-      body:
+      subject: 'Add end option to createReadStream, fix tests'
+      body: null
 - version: 1.0.5
-  date: 2020-08-17T18:05:58Z
+  date: 2020-08-17T18:05:58.000Z
   commits:
     - hash: 38b3357bbdbed59f6272c58e03ca74ca1b6c0f74
       author: Alexis Svinartchouk
       footers:
         change-type: patch
       subject: Replace apple-plist with @balena/apple-plist
-      body:
+      body: null
 - version: 1.0.4
-  date: 2020-07-24T15:33:43Z
+  date: 2020-07-24T15:33:43.000Z
   commits:
     - hash: 1786ec1fb26ee5b78f739a7a9e9ca144d033abca
       author: Alexis Svinartchouk
       footers:
         change-type: patch
       subject: Use core streams version of unbzip2-stream
-      body:
+      body: null
 - version: 1.0.3
-  date: 2020-07-24T12:31:40Z
+  date: 2020-07-24T12:31:40.000Z
   commits:
     - hash: 6d36e83d181c5d9555a6a479cd2c14e8a74a77ee
       author: Alexis Svinartchouk
       footers:
         change-type: patch
-      subject: Cleanup README, remove travis & editorconfig
-      body:
+      subject: 'Cleanup README, remove travis & editorconfig'
+      body: null
 - version: 1.0.2
-  date: 2020-07-24T12:15:07Z
+  date: 2020-07-24T12:15:07.000Z
   commits:
     - hash: 10f50f0cc796de148b8a357aa7746f18975b265f
       author: Alexis Svinartchouk
       footers:
         change-type: patch
       subject: Update README
-      body:
+      body: null
 - version: 1.0.1
-  date: 2020-07-24T06:54:09Z
+  date: 2020-07-24T06:54:09.000Z
   commits:
     - hash: 14237265c9843d3e9f56dcd3e999840ccd2a1757
       author: Alexis Svinartchouk
       footers:
         change-type: patch
       subject: More consise streams
-      body:
+      body: null
     - hash: d76fc02668ec891641c01666fe483b64fc9295bd
       author: Alexis Svinartchouk
       footers:
         change-type: patch
       subject: Added CHANGELOG
-      body:
+      body: null
     - hash: 429bb648022dc721621c3cd10fcdaaeb34f772aa
       author: Alexis Svinartchouk
       footers:
         change-type: patch
       subject: Update project name in README
-      body:
+      body: null
     - hash: 5b680c576e43c079e3abef4186268f918320b381
       author: Alexis Svinartchouk
       footers:
         change-type: patch
       subject: Convert examples to typescript
-      body:
+      body: null
 - version: 1.0.0
-  date: 2020-07-23T17:47:29Z
+  date: 2020-07-23T17:47:29.000Z
   commits:
     - hash: 64908cd8bdcdba27094b869409a02aba0b647d99
       author: Alexis Svinartchouk
       subject: 'fix: Don''t throw errors in streams _read method'
-      body:
+      body: null
     - hash: 1a6ddc2d8113a679f580c28c793beb3d43300f49
       author: Alexis Svinartchouk
       subject: Convert to typescript
-      body:
+      body: null
     - hash: 9dd424aedc8d3df8ab810568b7c0b3f21dfe7860
       author: Alexis Svinartchouk
       subject: Remove createReadStream and createSparseReadStream functions
-      body:
+      body: null
     - hash: fe1f178402c7f51044ebcaf532f4bc5828b30ab3
       author: Alexis Svinartchouk
-      subject: Remove callbacks, stop opening and closing files
-      body:
+      subject: 'Remove callbacks, stop opening and closing files'
+      body: null
     - hash: 83764cacd6d93b58860a579c99df213ad5687df8
       author: Alexis Svinartchouk
       subject: Remove getUncompressedSize function
-      body:
+      body: null
     - hash: 1d6f9828c874693b5425d7604642359ee18ccd66
       author: Alexis Svinartchouk
       subject: Move constants & utils to separate files
-      body:
+      body: null
     - hash: 62e36a6034264ce7ca528c2f95aef0da824a0d03
       author: Alexis Svinartchouk
       subject: Lint before commit
-      body:
+      body: null
     - hash: f56ac01a287bddb122841070c900092380f0c8ea
       author: Alexis Svinartchouk
       subject: Export everything
-      body:
+      body: null
     - hash: 7fb2dd094b2611ce7129a0f8afb3efefc8c411b9
       author: Alexis Svinartchouk
       subject: Factorize length check
-      body:
+      body: null
     - hash: 6708bf655d4bd5e9805965bfa55408eb5df5e61f
       author: Alexis Svinartchouk
       subject: Simplify streams logic
-      body:
+      body: null
     - hash: ad2587f47e8eb0567c1c114b950d01abd41cb991
       author: Alexis Svinartchouk
       subject: Add build folder to .gitignore
-      body:
+      body: null
     - hash: 5642541f0bc3f20552aa99ef37195a7099b5eb1c
       author: Alexis Svinartchouk
-      subject: Don't try to read entire blocks, only use streams, don't ignore ZEROFILL
-      body:
+      subject: 'Don''t try to read entire blocks, only use streams, don''t ignore ZEROFILL'
+      body: null
     - hash: cf277f9b5028d314a596550b6359079c7012c143
       author: Alexis Svinartchouk
       subject: Add contributors field to package.json
-      body:
+      body: null
     - hash: ec57258bcc3f2508c8038fb0fb7dcecb6d67b266
       author: Alexis Svinartchouk
       footers:
         change-type: major
       subject: Rename udif -> @balena/udif
-      body:
+      body: null
