@@ -1,0 +1,5 @@
+type: node
+upstream:
+  - repo: '@balena/apple-plist'
+    url: https://github.com/balena-io-modules/node-apple-plist
+    module: '@balena/apple-plist'
