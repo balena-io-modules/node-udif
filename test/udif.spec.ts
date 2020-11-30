@@ -85,7 +85,7 @@ describe('UDIF.ReadStream', () => {
 						let bytesRead = 0;
 
 						const stream = await image.createReadStream();
-						await new Promise((resolve, reject) => {
+						await new Promise<void>((resolve, reject) => {
 							stream
 								.on('error', reject)
 								.on('data', (chunk: Buffer) => {
@@ -113,7 +113,7 @@ describe('UDIF.ReadStream', () => {
 						let bytesRead = 0;
 
 						const stream = await image.createReadStream(end);
-						await new Promise((resolve, reject) => {
+						await new Promise<void>((resolve, reject) => {
 							stream
 								.on('error', reject)
 								.on('data', (chunk: Buffer) => {
@@ -146,7 +146,7 @@ describe('UDIF.ReadStream', () => {
 						const actual = Buffer.allocUnsafe(size);
 						let offset = 0;
 						const stream = await image.createReadStream();
-						await new Promise((resolve, reject) => {
+						await new Promise<void>((resolve, reject) => {
 							stream
 								.on('error', reject)
 								// NOTE: This can catch & bubble up read/push after EOD errors,
@@ -177,7 +177,7 @@ describe('UDIF.SparseReadStream', () => {
 					path.join(DATADIR, data.filename),
 					async (image) => {
 						const stream = await image.createSparseReadStream();
-						await new Promise((resolve, reject) => {
+						await new Promise<void>((resolve, reject) => {
 							let bytesRead = 0;
 							stream
 								.on('error', reject)
@@ -210,7 +210,7 @@ describe('UDIF.SparseReadStream', () => {
 						const size = await image.getUncompressedSize();
 						const actual = Buffer.alloc(size);
 						const stream = await image.createSparseReadStream();
-						await new Promise((resolve, reject) => {
+						await new Promise<void>((resolve, reject) => {
 							stream
 								.on('error', reject)
 								// NOTE: This can catch & bubble up read/push after EOD errors,
